@@ -1,0 +1,9 @@
+This is the format for commiting
+
+format version 0, 1/30/2024
+
+Replace "x" with necessary details 
+    -Example:
+    - Commit: 1 | General Version: 1 (Not always included) | Description: Increased performance of User Login | Miscellaneous: update soon, 2FA Req. for login | Known Bugs: upon login, it sends 10 duplicate emails
+
+- Commit: x | Version: x | Description: x | Miscellaneous: x | Known Bugs: x
