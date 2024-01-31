@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DDS's Coding Club</title>
+    <title>Hack Coding Club</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,23 +48,50 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
+        .projects {
+            margin-top: 20px;
+        }
+        .projects h2 {
+            color: #333;
+        }
+        .projects ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .projects li {
+            margin-bottom: 10px;
+        }
+        .projects li a {
+            color: #666;
+            text-decoration: none;
+        }
+        .projects li a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>DDS's Coding Club</h1>
+        <h1>DDS Coding Club</h1>
     </header>
     <ul>
-        <li><a class="active" href="index.html">Home</a></li>
-        <li><a href="projects.html">Projects</a></li>
+        
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active" href="projects.html">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li>
     </ul>
     <div class="container">
-        <h2>Welcome to DD's Coding Club!</h2>
-        <p>We are a group of passionate coders who love to hack and build cool projects together.</p>
-        
+       
+        <div class="projects">
+            <h2>Our Projects</h2>
+            <ul>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
+                <!-- Add more projects as needed -->
+            </ul>
+        </div>
     </div>
 </body>
 </html>
