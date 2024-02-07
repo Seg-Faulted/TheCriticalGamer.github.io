@@ -6,98 +6,131 @@
     <title>Hack Coding Club</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-        }
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-            text-align: center;
-        }
-        li {
-            float: left;
-        }
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            
-        }
-        li a:hover {
-            background-color: #6a4444;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
+        /* Your CSS styles here */
+        .terminal {
+            background-color: black;
+            color: white; /* Set text color to white */
+            font-family: monospace;
+            padding: 10px;
+            width: 80%;
+            height: 300px;
+            overflow-y: scroll;
             border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            cursor: text; /* Set cursor to text */
         }
-        .projects {
-            margin-top: 20px;
-            text-align: center;
+        .terminal-input {
+            color: lime; /* Set input text color to lime (bright green) */
         }
-        .projects h2 {
-            color: #333;
-            
+        .cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1.2em;
+            background-color: lime; /* Cursor color */
+            animation: blink 1s infinite; /* Blink animation */
         }
-        .projects ul {
-            list-style-type: none;
-            padding: 20;
-            
-  
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
         }
-        .projects li {
-            margin-bottom: 0px;
-            
-        }
-        .projects li a {
-            color: #d9d9d9;
-            text-decoration: none;
-            text-align: right;
-        }
-     
     </style>
 </head>
 <body>
-    <header>
-        <h1>DDS Coding Club</h1>
+    <header class="bg-gray-900 text-white py-4">
+        <h1 class="text-center">DDS Coding Club</h1>
     </header>
-    <ul>
-        
-        <li><a href="index.html">Home</a></li>
-        <li><a class="active" href="projects.html">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#about">About</a></li>
+    <ul class="bg-gray-900 text-white overflow-hidden">
+        <li class="float-left"><a href="index.html">Home</a></li>
+        <li class="float-left"><a class="active" href="projects.html">Projects</a></li>
+        <li class="float-left"><a href="#contact">Contact</a></li>
+        <li class="float-left"><a href="#about">About</a></li>
     </ul>
-    <div class="container">
-       
+    <div class="container mx-auto py-8">
         <div class="projects">
-            <h2>Our Projects</h2>
+            <h2 class="text-2xl font-bold mb-4">Our Projects</h2>
             <ul>
                 <li><a href="#">Project 1</a></li>
                 <li><a href="#">Project 2</a></li>
                 <li><a href="#">Project 3</a></li>
                 <!-- Add more projects as needed -->
             </ul>
+        </div>
+        <div class="mt-8">
+            <h2 class="text-2xl font-bold mb-4">Caesar Cipher Terminal</h2>
+            <div id="terminal" class="terminal" tabindex="0">
+                <span class="cursor"></span>
+            </div>
+            <script>
+                // Terminal functionality
+                const terminal = document.getElementById('terminal');
+                const cursor = document.querySelector('.cursor');
+
+                function handleInput(inputText) {
+                    if (inputText.trim() === '') return;
+                    if (inputText.trim().toLowerCase() === 'clear!') {
+                        terminal.innerHTML = '';
+                        terminal.innerHTML += '<span class="cursor"></span>';
+                        return;
+                    }
+                    if (inputText.trim().toLowerCase() === 'quit!') {
+                        terminal.blur();
+                        return;
+                    }
+                    const output = performCipher(inputText); // Perform Caesar cipher
+                    terminal.innerHTML += `<span class="terminal-input">${inputText}<br>${output}</span><br><span class="cursor"></span>`;
+                    terminal.scrollTop = terminal.scrollHeight;
+                }
+
+                function performCipher(input) {
+                    const shift = 3; // Caesar cipher with a shift of 3
+                    return input
+                        .split("")
+                        .map(c => {
+                            if (c.match(/[a-zA-Z]/)) {
+                                let base = c === c.toLowerCase() ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+                                let shiftedCharCode = ((c.charCodeAt(0) - base + shift) % 26 + base);
+                                return String.fromCharCode(shiftedCharCode);
+                            } else {
+                                return c;
+                            }
+                        })
+                        .join("");
+                }
+
+                terminal.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter') {
+                        event.preventDefault(); // Prevent default Enter behavior
+                        const inputText = terminal.innerText.trim(); // Remove newlines
+                        handleInput(inputText);
+                        terminal.innerText = ''; // Clear the terminal after processing input
+                    } else if (event.key === 'Backspace') {
+                        // Prevent default backspace behavior
+                        event.preventDefault();
+                        // Remove last character from terminal
+                        terminal.innerText = terminal.innerText.slice(0, -1);
+                    }
+                });
+
+                terminal.addEventListener('keypress', (event) => {
+                    // Prevent default keypress behavior
+                    event.preventDefault();
+                    // Append typed character to terminal
+                    terminal.innerText += event.key;
+                });
+
+                terminal.addEventListener('click', () => {
+                    cursor.style.display = 'inline-block'; // Show cursor on click
+                    terminal.focus(); // Keep focus on terminal
+                });
+
+                terminal.addEventListener('blur', () => {
+                    cursor.style.display = 'none'; // Hide cursor on blur
+                });
+            </script>
         </div>
     </div>
 </body>
